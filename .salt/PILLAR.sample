@@ -44,6 +44,7 @@ makina-projects.projectname:
       ES_MAX_MEM: "2g"
       ES_MIN_MEM: "2g"
       ES_USE_IPV4: "1"
+    es_network_publish_host: null
     es_cluster_name: "elasticsearch"
     es_mlockall: "true"
     es_node_name: "{fqdn}"

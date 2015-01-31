@@ -208,6 +208,9 @@ bootstrap.mlockall: {{data.es_mlockall}}
 # set, it is automatically derived. It must point to an actual IP address.
 #
 #network.publish_host: 192.168.0.1
+{% if data.es_network_publish_host %}
+network.publish_host: {{data.es_network_publish_host}}
+{% endif %}
 
 # Set both 'bind_host' and 'publish_host':
 #
