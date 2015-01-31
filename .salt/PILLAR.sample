@@ -40,7 +40,7 @@ makina-projects.projectname:
     start_cmd: 'bin/elasticsearch'
     start_args: []
     start_es_env:
-      ES_JAVA_OPTS: "-Des-foreground=yes"
+      ES_JAVA_OPTS: ""
       ES_MAX_MEM: "2g"
       ES_MIN_MEM: "2g"
       ES_USE_IPV4: "1"
