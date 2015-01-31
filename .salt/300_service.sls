@@ -15,6 +15,7 @@ echo restart:
      'environment': data.start_es_env,
      'gid': cfg.group,
      'copy_env': True,
+     'shell': True,
      'working_dir': data.prefix,
      'warmup_delay': "30",
      'max_age': 24*60*60} %}
