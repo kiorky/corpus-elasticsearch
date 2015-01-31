@@ -1,4 +1,3 @@
-#
 # This file contains default values which are used
 # by the salt states deploying your project.
 # you may copy them to your relevant PILLAR file
@@ -15,17 +14,69 @@
 # think that dicts are updated/merged with default
 # but lists are overidden
 makina-projects.projectname:
-  data:
-    opt: value
-    password: SecretToBeChangedInsidePillar
   env_defaults:
     dev:
-      opt: value2
-  os_defaults:
-    Ubuntu:
-# os  filter
-      opt: value1
-    Debian:
-# os familly filter
-      opt1: value11
+      es_env:
+        ES_MAX_MEM: "512m"
+        ES_MIN_MEM: "512m"
+  data:
+    sroot: '{data_root}/es'
+    prefix: '{data_root}/es/root'
+    master: true
+    configs:
+      "{prefix}/config/logging.yml":
+        template: 'salt://makina-projects/{name}/files/config/logging.yml'
+      "{prefix}/config/elasticsearch.yml":
+        template: 'salt://makina-projects/{name}/files/config/elasticsearch.yml'
+    nginx_upstream: 'salt://makina-projects/{name}/files/nginx_upstream'
+    nginx_vhost: 'salt://makina-projects/{name}/files/nginx_vhost'
+    # es version defs
+    version: '1'
+    fv: '{version}.4.2'
+    es_bn: "elasticsearch-{fv}"
+    es_tb: "{es_bn}.tar.gz"
+    es_url: "https://download.elasticsearch.org/elasticsearch/elasticsearch/{es_tb}"
+    domain: "{fqdn}"
+    start_cmd: 'bin/elasticsearch'
+    start_args: []
+    start_es_env:
+      ES_JAVA_OPTS: "-Des-foreground=yes"
+      ES_MAX_MEM: "2g"
+      ES_MIN_MEM: "2g"
+      ES_USE_IPV4: "1"
+    es_cluster_name: "elasticsearch"
+    es_mlockall: "true"
+    es_node_name: "{fqdn}"
+    es_action_disable_delete_all_indices: "true"
+    es_node_master: "true"
+    es_node_data: "true"
+    es_number_of_shards: "6"
+    es_number_of_replicas: "2"
+    es_http_port: "9200"
+    es_tcp_port: "9300"
+    es_http_max_content_length: "1000mb"
+    es_discovery_zen_ping_multicast_enabled: "false"
+    es_discovery_zen_ping_unicast_hosts: []
+    es_log_level: INFO
+    es_log_level_action: DEBUG
+    es_log_index_search_slowlog: "false"
+    es_log_index_indexing_slowlog: "false"
+    bundle_top_sync: ['bin', 'lib']
+
+    # define here each core, and its configuration template folder
+    indexes: []
+    #  - sample: 'salt://makina-projects/{name}/files/sample_core'
+    #  - drupal: 'salt://makina-projects/{name}/files/drupal_core'
+    # those lines are added as allow <> in nginx configuration file to restrict acces based on IP
+    allow:
+      - all
+    # if any users are defined, es will be also HTTP BASED (simple auth) restricted
+    users:
+      # override at least this first password as it is the global es administarator
+      # or set this to an empty list to disable auth.
+      - esadmin: {password: sample_pw}
+      - sampleadmin: {indexes: [sample], password: sample_pw}
+      - drupaladmin: {indexes: [drupal], password: sample_pw}
+    # attention, rsync args !
+    bundle_sync: ['start.jar',  'logs/', 'lib/', 'webapps/', 'es-webapp/']
 # vim:set ft=yaml:
