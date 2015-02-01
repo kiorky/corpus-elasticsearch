@@ -21,7 +21,8 @@ makina-projects.projectname:
         ES_MIN_MEM: "512m"
   data:
     sroot: '{data_root}/es'
-    prefix: '{data_root}/es/root'
+    sdata: '{data_root}/es/data'
+    prefix: '{data_root}/es/root-{fv}'
     master: true
     configs:
       "{prefix}/config/logging.yml":
@@ -37,7 +38,7 @@ makina-projects.projectname:
     es_tb: "{es_bn}.tar.gz"
     es_url: "https://download.elasticsearch.org/elasticsearch/elasticsearch/{es_tb}"
     domain: "{fqdn}"
-    start_cmd: 'bin/elasticsearch'
+    start_cmd: './elasticsearch'
     start_args: []
     start_es_env:
       ES_JAVA_OPTS: ""
@@ -63,6 +64,8 @@ makina-projects.projectname:
     es_log_index_search_slowlog: "false"
     es_log_index_indexing_slowlog: "false"
     bundle_top_sync: ['bin', 'lib']
+    bundle_data_sync: ['plugins', 'data', 'logs', 'tmp']
+    bundle_data_ver_sync: ['config']
 
     # define here each core, and its configuration template folder
     indexes: []
@@ -78,6 +81,4 @@ makina-projects.projectname:
       - esadmin: {password: sample_pw}
       - sampleadmin: {indexes: [sample], password: sample_pw}
       - drupaladmin: {indexes: [drupal], password: sample_pw}
-    # attention, rsync args !
-    bundle_sync: ['start.jar',  'logs/', 'lib/', 'webapps/', 'es-webapp/']
 # vim:set ft=yaml:

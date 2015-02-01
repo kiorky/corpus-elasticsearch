@@ -9,11 +9,11 @@ echo restart:
     - watch_in:
       - mc_proxy: circus-pre-restart
 
+# our wrapper drop privs after setting ulimits
 {% set circus_data = {
-     'cmd': data.start_cmd.format(*data.start_args),
-     'uid': cfg.user,
-     'environment': data.start_es_env,
-     'gid': cfg.group,
+     'cmd': 'bin/elasticsearch_suwrapper',
+     'uid': 'root',
+     'gid': 'root',
      'copy_env': True,
      'working_dir': data.prefix,
      'warmup_delay': "30",
