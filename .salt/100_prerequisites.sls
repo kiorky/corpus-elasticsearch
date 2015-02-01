@@ -20,6 +20,11 @@ data/es/root-{curver}:
 
 #}
 
+{{cfg.name}}-prerequisites:
+  pkg.installed:
+    pkgs:
+      - apache2-utils
+
 {{cfg.name}}-{{ version }}:
   file.directory:
     - names:

@@ -29,8 +29,8 @@ makina-projects.projectname:
         template: 'salt://makina-projects/{name}/files/config/logging.yml'
       "{prefix}/config/elasticsearch.yml":
         template: 'salt://makina-projects/{name}/files/config/elasticsearch.yml'
-    nginx_upstream: 'salt://makina-projects/{name}/files/nginx_upstream'
-    nginx_vhost: 'salt://makina-projects/{name}/files/nginx_vhost'
+    nginx_upstream: 'salt://makina-projects/{name}/files/nginx.top.conf'
+    nginx_vhost: 'salt://makina-projects/{name}/files/nginx.conf'
     # es version defs
     version: '1'
     fv: '{version}.4.2'
@@ -38,6 +38,7 @@ makina-projects.projectname:
     es_tb: "{es_bn}.tar.gz"
     es_url: "https://download.elasticsearch.org/elasticsearch/elasticsearch/{es_tb}"
     domain: "{fqdn}"
+    ssl_protected: true
     start_cmd: './elasticsearch'
     start_args: []
     start_es_env:
@@ -66,19 +67,82 @@ makina-projects.projectname:
     bundle_top_sync: ['bin', 'lib']
     bundle_data_sync: ['plugins', 'data', 'logs', 'tmp']
     bundle_data_ver_sync: ['config']
-
+    htpasswd_base: "/etc/nginx/{0}-es-htpasswd-{1}"
+    acls:
+      default:
+        allowed: []
+        restricted: [GET, HEAD, OPTIONS,
+                           PUT, POST, MKCOL, COPY,
+                           PROPFIND, PROPPATCH,
+                           LOCK, UNLOCK,
+                           PATCH, DELETE]
+        denied: []
+      # admins acl default to default acl, unless, you redefine those adter
+      #admins:
+      #  allowed: []
+      #  restricted: [GET, HEAD, PUT, POST, MKCOL, COPY, PROPFIND, PROPPATCH, LOCK, UNLOCK, PATCH,OPTIONS, DELETE]
+      #  denied: []
     # define here each core, and its configuration template folder
-    indexes: []
-    #  - sample: 'salt://makina-projects/{name}/files/sample_core'
-    #  - drupal: 'salt://makina-projects/{name}/files/drupal_core'
-    # those lines are added as allow <> in nginx configuration file to restrict acces based on IP
-    allow:
-      - all
-    # if any users are defined, es will be also HTTP BASED (simple auth) restricted
+    # the acls are inherited from default unless you redefine them
+    # in the 'acls' subdict, see this testindex definition example
+    #indexes:
+    #   # warning: allowed & denied are global switches (not tied to users)
+    #   # access is auth only by default,
+    #   # and here access granted to testuser2 & testuser
+    #   - testindex:
+    #       users: [testuser, testuser2]
+    #   # unrestrict any access to this full index, even for anonymous
+    #   - testindex3:
+    #       acls:
+    #         restricted: []
+    #         allowed: [GET, HEAD, OPTIONS,
+    #                   PUT, POST, MKCOL, COPY,
+    #                   PROPFIND, PROPPATCH,
+    #                   LOCK, UNLOCK,
+    #                   PATCH, DELETE]
+    #   # allow testuser2 & testuser with default acls on index
+    #   # unrestrict access on all for testuser
+    #   # unrestrict access on foo type for all methods & all users & anon
+    #   # unrestrict access on bar type for user testuser5 but only for
+    #   # GET, HEAD, OPTIONS
+    #   - testindex4:
+    #       users: [testuser]
+    #       types:
+    #         bar:
+    #           users: [testuser5]
+    #           acls:
+    #             allowed: []
+    #             restricted: [GET, HEAD, OPTIONS]
+    #             denied: [POST, PUT, MKCOL, COPY,
+    #                      PROPFIND, PROPPATCH,
+    #                      LOCK, UNLOCK,
+    #                      PATCH, DELETE]
+    #         toto:
+    #           users: [testuser2]
+    #           acls:
+    #             allowed: []
+    #             restricted: [GET, HEAD, OPTIONS,
+    #                       PUT, POST, MKCOL, COPY,
+    #                       PROPFIND, PROPPATCH,
+    #                       LOCK, UNLOCK,
+    #                       PATCH, DELETE]
+    #         foo:
+    #           users: [testuser5]
+    #           acls:
+    #             restricted: []
+    #             allowed: [GET, HEAD, OPTIONS,
+    #                       PUT, POST, MKCOL, COPY,
+    #                       PROPFIND, PROPPATCH,
+    #                       LOCK, UNLOCK,
+    #                       PATCH, DELETE]
+    # Define here all users, and their password
+    # admins is like users but define global admins
+    # admin will always be added both as an user and an admin, whatever you override in pillar
+    #admins:
+    #  - admin
     users:
       # override at least this first password as it is the global es administarator
-      # or set this to an empty list to disable auth.
-      - esadmin: {password: sample_pw}
-      - sampleadmin: {indexes: [sample], password: sample_pw}
-      - drupaladmin: {indexes: [drupal], password: sample_pw}
+      # if you want to auto generate the password, just adapt the line for admin
+      # to adapt the generated key for you user
+      - admin: {password: {{salt['mc_utils.generate_stored_password']("ESuser_admin")}}}
 # vim:set ft=yaml:
