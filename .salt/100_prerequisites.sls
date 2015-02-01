@@ -121,7 +121,7 @@ data/es/root-{curver}:
                 {{i}}={{v}}
                 export {{i}}
                 {% endfor %}
-                {{data.start_cmd.format(*data.start_args)}}
+                exec {{data.start_cmd.format(*data.start_args)}}
     - user: {{cfg.user}}
     - group: {{cfg.group}}
     - mode: 0750
