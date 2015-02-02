@@ -22,7 +22,7 @@ data/es/root-{curver}:
 
 {{cfg.name}}-prerequisites:
   pkg.installed:
-    pkgs:
+    - pkgs:
       - apache2-utils
 
 {{cfg.name}}-{{ version }}:

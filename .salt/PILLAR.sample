@@ -29,6 +29,9 @@ makina-projects.projectname:
         template: 'salt://makina-projects/{name}/files/config/logging.yml'
       "{prefix}/config/elasticsearch.yml":
         template: 'salt://makina-projects/{name}/files/config/elasticsearch.yml'
+    plugins:
+      - mobz/elasticsearch-head: head
+      - karmi/elasticsearch-paramedic: paramedic
     nginx_upstream: 'salt://makina-projects/{name}/files/nginx.top.conf'
     nginx_vhost: 'salt://makina-projects/{name}/files/nginx.conf'
     # es version defs
@@ -54,11 +57,12 @@ makina-projects.projectname:
     es_node_master: "true"
     es_node_data: "true"
     es_number_of_shards: "6"
-    es_number_of_replicas: "2"
+    es_number_of_replicas: "1"
     es_http_port: "9200"
     es_tcp_port: "9300"
     es_http_max_content_length: "1000mb"
     es_discovery_zen_ping_multicast_enabled: "false"
+    es_discovery_zen_minimum_master_nodes: 1
     es_discovery_zen_ping_unicast_hosts: []
     es_log_level: INFO
     es_log_level_action: DEBUG
@@ -145,4 +149,10 @@ makina-projects.projectname:
       # if you want to auto generate the password, just adapt the line for admin
       # to adapt the generated key for you user
       - admin: {password: {{salt['mc_utils.generate_stored_password']("ESuser_admin")}}}
+    # backup_retention
+    keep_days: '17'
+    keep_lasts: '21'
+    keep_monthes: '3'
+    keep_weeks: '2'
+    keep_logs: '7'
 # vim:set ft=yaml:
