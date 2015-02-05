@@ -51,6 +51,7 @@ makina-projects.projectname:
       ES_USE_IPV4: "1"
     es_network_publish_host: null
     es_cluster_name: "elasticsearch"
+    es_http_jsonp: "true"
     es_mlockall: "true"
     es_node_name: "{fqdn}"
     es_action_disable_delete_all_indices: "true"

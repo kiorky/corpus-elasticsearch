@@ -387,7 +387,7 @@ discovery.zen.ping.unicast.hosts: {{data.es_discovery_zen_ping_unicast_hosts}}
 # http server. With this enabled, it may pose a security risk, so disabling
 # it unless you need it is recommended (it is disabled by default).
 #
-#http.jsonp.enable: true
+http.jsonp.enable: {{data.es_http_jsonp}}
 
 
 

@@ -11,6 +11,7 @@ echo restart:
 
 {{ nginx.virtualhost(domain=data.domain,
                      cfg=cfg,
+                     vhost_basename="corpus-{0}".format(cfg.name),
                      loglevel=data.get('nginx_loglevel', 'crit'),
                      vh_top_source=data.nginx_upstream,
                      vh_content_source=data.nginx_vhost) }}
