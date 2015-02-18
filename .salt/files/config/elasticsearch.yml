@@ -395,3 +395,4 @@ http.jsonp.enable: {{data.es_http_jsonp}}
 # secutity
 action.disable_delete_all_indices: {{data.es_action_disable_delete_all_indices}}
 
+path.repo: ["{{data.prefix}}/tmp/snapshots"]
