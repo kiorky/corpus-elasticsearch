@@ -2,7 +2,21 @@
 {% set data = cfg.data %}
 {% set users_bases = {} %}
 {% set admins = users_bases.setdefault('admins', []) %}
+{% set readonlys = users_bases.setdefault('readonlys', []) %}
 {% set http_users = {} %}
+
+
+{% for readonly in salt['mc_utils.uniquify'](
+                      data.get('readonly', []) + ["admin"]) %}
+{%  if readonly not in readonlys %}
+{%    do readonlys.append(readonly) %}
+{%  endif %}
+{%  if readonly not in http_users %}
+{%  do http_users.update({
+      readonly: salt['mc_utils.generate_stored_password'](
+        "ESuser_{0}".format(readonly))})%}
+{%  endif %}
+{% endfor %}
 
 # load users
 {% for userdict in data.get('users', []) %}

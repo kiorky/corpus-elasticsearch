@@ -74,6 +74,10 @@ makina-projects.projectname:
     bundle_data_ver_sync: ['config']
     htpasswd_base: "/etc/nginx/{0}-es-htpasswd-{1}"
     acls:
+      readonly:
+        allowed: []
+        restricted: [GET, HEAD, OPTIONS]
+        denied: []
       default:
         allowed: []
         restricted: [GET, HEAD, OPTIONS,
@@ -150,6 +154,10 @@ makina-projects.projectname:
       # if you want to auto generate the password, just adapt the line for admin
       # to adapt the generated key for you user
       - admin: {password: {{salt['mc_utils.generate_stored_password']("ESuser_admin")}}}
+    # allow users to have access to some global API
+    # for now this matchs only  /_search
+    #readonlys:
+    #  - foo
     # backup_retention
     keep_days: '17'
     keep_lasts: '21'
