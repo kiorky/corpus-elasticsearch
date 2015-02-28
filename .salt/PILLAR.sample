@@ -74,7 +74,7 @@ makina-projects.projectname:
     bundle_data_ver_sync: ['config']
     htpasswd_base: "/etc/nginx/{0}-es-htpasswd-{1}"
     acls:
-      readonly:
+      readonlys:
         allowed: []
         restricted: [GET, HEAD, OPTIONS]
         denied: []

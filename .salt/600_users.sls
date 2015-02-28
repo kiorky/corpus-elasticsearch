@@ -7,7 +7,7 @@
 
 
 {% for readonly in salt['mc_utils.uniquify'](
-                      data.get('readonly', []) + ["admin"]) %}
+                      data.get('readonlys', []) + ["admin"]) %}
 {%  if readonly not in readonlys %}
 {%    do readonlys.append(readonly) %}
 {%  endif %}
