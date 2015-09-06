@@ -26,9 +26,9 @@
               --paths "{{cfg.project_root}}" \
               --paths "{{cfg.data_root}}" \
               --users www-data \
-              --users {% if not cfg.no_user%}{{cfg.user}}{% else -%}root{% endif %} \
+              --users {{cfg.user}} \
               --groups {{cfg.group}} \
-              --user {% if not cfg.no_user%}{{cfg.user}}{% else -%}root{% endif %} \
+              --user {{cfg.user}} \
               --group {{cfg.group}};
               "{{locs.resetperms}}" "${@}" \
               --no-recursive -o\
