@@ -36,7 +36,8 @@ makina-projects.projectname:
     nginx_vhost: 'salt://makina-projects/{name}/files/nginx.conf'
     # es version defs
     version: '1'
-    fv: '{version}.4.2'
+    fv: '{version}.7.2'
+    #fv: '{version}.4.2'
     es_bn: "elasticsearch-{fv}"
     es_tb: "{es_bn}.tar.gz"
     es_url: "https://download.elasticsearch.org/elasticsearch/elasticsearch/{es_tb}"
