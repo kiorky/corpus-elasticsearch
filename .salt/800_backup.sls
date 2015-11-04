@@ -1,9 +1,6 @@
-{% import "makina-states/services/http/nginx/init.sls" as nginx %}
-{% set cfg = opts['ms_project'] %}
-{% set data = cfg.data %}
+# override retention policy not to conflict with mastersalt
 include:
   - makina-states.services.backup.dbsmartbackup
-# override retention policy not to conflict with mastersalt
 {% set cfg = opts.ms_project %}
 {% set settings = salt['mc_dbsmartbackup.settings']() %}
 {% set data = cfg.data %}
@@ -20,3 +17,13 @@ include:
     - user: root
     - group: root
 {% endfor %}
+
+/etc/db_smart_backup_deactivated:
+{% if cfg.default_env in ['dev'] %}
+  file.managed:
+    - mode: 644
+    - user: root
+    - group: root
+{%else %}
+  file.absent: []
+{% endif %}

@@ -20,6 +20,11 @@ makina-projects.projectname:
         ES_MAX_MEM: "512m"
         ES_MIN_MEM: "512m"
   data:
+    keep_days: '17'
+    keep_lasts: '21'
+    keep_monthes: '1'
+    keep_weeks: '2'
+    keep_logs: '7'
     sroot: '{data_root}/es'
     sdata: '{data_root}/es/data'
     prefix: '{data_root}/es/root-{fv}'
@@ -159,10 +164,5 @@ makina-projects.projectname:
     # for now this matchs only  /_search
     #readonlys:
     #  - foo
-    # backup_retention
-    keep_days: '17'
-    keep_lasts: '21'
-    keep_monthes: '1'
-    keep_weeks: '2'
-    keep_logs: '7'
+
 # vim:set ft=yaml:
