@@ -76,7 +76,7 @@ makina-projects.projectname:
     es_log_index_search_slowlog: "false"
     es_log_index_indexing_slowlog: "false"
     bundle_top_sync: ['bin', 'lib']
-    bundle_data_sync: ['plugins', 'data', 'logs', 'tmp', 'tmp/snapshots']
+    bundle_data_sync: ['plugins', 'data', 'logs', 'tmp']
     bundle_data_ver_sync: ['config']
     htpasswd_base: "/etc/nginx/{0}-es-htpasswd-{1}"
     acls:
