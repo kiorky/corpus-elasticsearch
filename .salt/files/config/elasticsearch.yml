@@ -46,7 +46,7 @@ node.name: "{{data.es_node_name}}"
 # and to allow or deny to store the data.
 #
 # Allow this node to be eligible as a master node (enabled by default):
-node.data: {{data.es_node_master}}
+node.master: {{data.es_node_master}}
 #
 # Allow this node to store data (enabled by default):
 #
