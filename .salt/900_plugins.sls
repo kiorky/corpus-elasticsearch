@@ -8,7 +8,8 @@
 {% for i, d in plugin.items() %}
 install-{{i}}-plugin:
   cmd.run:
-    - name: bin/plugin -install "{{i}}"
+    {# RLE: note: on v2 "-install" does not work, "install" works. Hope it is also working in v1.7. Else we'll need a fix #}
+    - name: bin/plugin install "{{i}}"
     - user: {{cfg.user}}
     - cwd: {{data.prefix}}
     - onlyif: test ! -e "{{data.prefix}}/plugins/{{d}}"
