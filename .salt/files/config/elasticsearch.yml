@@ -195,7 +195,7 @@ bootstrap.mlockall: {{data.es_mlockall}}
 
 ############################## Network And HTTP ###############################
 
-# Elasticsearch, by default, binds itself to the 0.0.0.0 address, and listens
+# Elasticsearch, by default, binds itself to the 0.0.0.0 address (in V1.x, not in V2.x), and listens
 # on port [9200-9300] for HTTP traffic and on port [9300-9400] for node-to-node
 # communication. (the range means that if the port is busy, it will automatically
 # try the next port).
@@ -203,6 +203,9 @@ bootstrap.mlockall: {{data.es_mlockall}}
 # Set the bind address specifically (IPv4 or IPv6):
 #
 #network.bind_host: 192.168.0.1
+{% if data.version > 1 %}
+network.host: 0.0.0.0
+{% endif %}
 
 # Set the address other nodes will use to communicate with this node. If not
 # set, it is automatically derived. It must point to an actual IP address.
