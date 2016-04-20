@@ -7,12 +7,20 @@
 {% for plugin in data.plugins %}
 {% for i, d in plugin.items() %}
 install-{{i}}-plugin:
+{% if data.version > 1 %}
   cmd.run:
-    {# RLE: note: on v2 "-install" does not work, "install" works. Hope it is also working in v1.7. Else we'll need a fix #}
     - name: bin/plugin install "{{i}}"
     - user: {{cfg.user}}
     - cwd: {{data.prefix}}
     - onlyif: test ! -e "{{data.prefix}}/plugins/{{d}}"
     - use_vt: true
+{% else %}
+  cmd.run:
+    - name: bin/plugin -install "{{i}}"
+    - user: {{cfg.user}}
+    - cwd: {{data.prefix}}
+    - onlyif: test ! -e "{{data.prefix}}/plugins/{{d}}"
+    - use_vt: true
+{%endif%}
 {% endfor %}
 {% endfor %}
