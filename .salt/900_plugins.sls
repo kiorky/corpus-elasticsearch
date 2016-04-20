@@ -9,7 +9,7 @@
 install-{{i}}-plugin:
 {% if data.version > 1 %}
   cmd.run:
-    - name: bin/plugin install "{{i}}"
+    - name: bin/plugin install --batch "{{i}}"
     - user: {{cfg.user}}
     - cwd: {{data.prefix}}
     - onlyif: test ! -e "{{data.prefix}}/plugins/{{d}}"
