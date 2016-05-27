@@ -6,17 +6,20 @@
 include:
   - makina-states.services.http.nginx
 
-echo restart:
-  cmd.run:
-    - watch_in:
-      - mc_proxy: nginx-pre-restart-hook
-
+{% if data.get('http_proxy_passthrough', False) %}
+{% set nginx_top = data.nginx_proxy_upstream %}
+{% set nginx_vhost = data.nginx_proxy_vhost %}
+{% else %}
+{% set nginx_top = data.nginx_fw_upstream %}
+{% set nginx_vhost = data.nginx_fw_vhost %}
+{% endif %}
 {{ nginx.virtualhost(domain=data.domain,
                      cfg=cfg,
+                     force_reload=True,
                      vhost_basename="corpus-{0}".format(cfg.name),
                      loglevel=data.get('nginx_loglevel', 'crit'),
-                     vh_top_source=data.nginx_upstream,
-                     vh_content_source=data.nginx_vhost) }}
+                     vh_top_source=nginx_top,
+                     vh_content_source=nginx_vhost) }}
 {% else %}
 skipped:
   mc_proxy.hook: []

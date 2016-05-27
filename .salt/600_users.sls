@@ -28,7 +28,7 @@
 {%  endfor %}
 {% endfor %}
 
-{% for dbext in data.indexes %}
+{% for dbext in data.get('indexes', {}) %}
 {%  for db, dbdata in dbext.items() %}
 {%    for user in dbdata.get('users', []) %}
 {%      if user not in http_users %}
@@ -43,7 +43,7 @@
 {% endfor %}
 
 # make per type auth files
-{% for dbext in data.indexes %}
+{% for dbext in data.get('indexes', {}) %}
 {%  for db, dbdata in dbext.items() %}
 {%    for typ, typdata in dbdata.get('types', {}).items() %}
 {%      for user in typdata.get('users', []) %}
@@ -61,8 +61,21 @@
 {%  endfor %}
 {% endfor %}
 
-{% for admin in salt['mc_utils.uniquify'](
-                      data.get('admins', []) + ["admin"]) %}
+{#
+# in case of firewall: we respect groups from the admins key
+# and in case of passthrough, we just take the whole users subkey as admins
+#}
+{% set admin_users = data.get('admins', []) + ["admin"] %}
+{% if data.get('http_proxy_passthrough', False) %}
+{% set admin_users = [] %}
+{% for userdict in data.users %}
+{% for i, data in userdict.items() %}
+{% set admin_users = admin_users.append(i) %}
+{% endfor%}
+{% endfor%}
+{% endif %}
+{% set admin_users = salt['mc_utils.uniquify'](admin_users) %}
+{% for admin in admin_users %}
 {%  if admin not in admins %}
 {%    do admins.append(admin) %}
 {%  endif %}

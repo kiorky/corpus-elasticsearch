@@ -23,6 +23,11 @@ makina-projects.projectname:
     # add a nginx vhost on port 80
     version: '1.7.2'
     use_http_proxy: True
+    # if set to true, we still use nginx as a proxy
+    # but we do not firewall, we
+    # still resepect http users if sets, but not
+    # filter based on http methods
+    http_proxy_passthrough: False
     keep_days: '2'
     keep_lasts: '2'
     keep_monthes: '0'
@@ -47,8 +52,10 @@ makina-projects.projectname:
       2:
         - mobz/elasticsearch-head: head
         - mapper-attachments: mapper-attachments
-    nginx_upstream: 'salt://makina-projects/{name}/files/nginx.top.conf'
-    nginx_vhost: 'salt://makina-projects/{name}/files/nginx.conf'
+    nginx_proxy_upstream: 'salt://makina-projects/{name}/files/nginx.top.conf'
+    nginx_proxy_vhost: 'salt://makina-projects/{name}/files/nginx.conf'
+    nginx_fw_upstream: 'salt://makina-projects/{name}/files/nginx.top.conf'
+    nginx_fw_vhost: 'salt://makina-projects/{name}/files/nginx.conf'
     # es version defs
     es_bn: "elasticsearch-{version}"
     es_tb: "{es_bn}.tar.gz"
