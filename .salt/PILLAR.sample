@@ -38,10 +38,10 @@ makina-projects.projectname:
     prefix: '{data_root}/es/root-{version}'
     master: true
     configs:
-      "{prefix}/config/logging.yml":
-        template: 'salt://makina-projects/{name}/files/config/logging.yml'
-      "{prefix}/config/elasticsearch.yml":
-        template: 'salt://makina-projects/{name}/files/config/elasticsearch.yml'
+      "config/logging.yml":
+        target: "{prefix}/config/logging.yml"
+      "config/elasticsearch.yml":
+        target: "{prefix}/config/elasticsearch.yml"
     # defaults to the major version of es selected by 'version', eg 2, the integer
     # it will take the appropriate plugins list in the 'plugins' configuration key
     # plugins_selector: 2
