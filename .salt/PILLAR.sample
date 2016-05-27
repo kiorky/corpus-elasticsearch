@@ -52,8 +52,8 @@ makina-projects.projectname:
       2:
         - mobz/elasticsearch-head: head
         - mapper-attachments: mapper-attachments
-    nginx_proxy_upstream: 'salt://makina-projects/{name}/files/nginx.top.conf'
-    nginx_proxy_vhost: 'salt://makina-projects/{name}/files/nginx.conf'
+    nginx_proxy_upstream: 'salt://makina-projects/{name}/files/nginx.proxy.top.conf'
+    nginx_proxy_vhost: 'salt://makina-projects/{name}/files/nginx.proxy.conf'
     nginx_fw_upstream: 'salt://makina-projects/{name}/files/nginx.top.conf'
     nginx_fw_vhost: 'salt://makina-projects/{name}/files/nginx.conf'
     # es version defs
