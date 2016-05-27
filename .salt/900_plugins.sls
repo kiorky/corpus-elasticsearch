@@ -7,7 +7,7 @@
 {% for plugin in data.plugins %}
 {% for i, d in plugin.items() %}
 install-{{i}}-plugin:
-{% if data.version > 1 %}
+{% if data.version[0] > '1' %}
   cmd.run:
     - name: bin/plugin install --batch "{{i}}"
     - user: {{cfg.user}}

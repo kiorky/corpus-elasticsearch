@@ -20,6 +20,9 @@ makina-projects.projectname:
         ES_MAX_MEM: "512m"
         ES_MIN_MEM: "512m"
   data:
+    # add a nginx vhost on port 80
+    version: '1.7.2'
+    use_http_proxy: True
     keep_days: '2'
     keep_lasts: '2'
     keep_monthes: '0'
@@ -27,7 +30,7 @@ makina-projects.projectname:
     keep_logs: '7'
     sroot: '{data_root}/es'
     sdata: '{data_root}/es/data'
-    prefix: '{data_root}/es/root-{fv}'
+    prefix: '{data_root}/es/root-{version}'
     master: true
     configs:
       "{prefix}/config/logging.yml":
@@ -40,10 +43,7 @@ makina-projects.projectname:
     nginx_upstream: 'salt://makina-projects/{name}/files/nginx.top.conf'
     nginx_vhost: 'salt://makina-projects/{name}/files/nginx.conf'
     # es version defs
-    version: '1'
-    fv: '{version}.7.2'
-    #fv: '{version}.4.2'
-    es_bn: "elasticsearch-{fv}"
+    es_bn: "elasticsearch-{version}"
     es_tb: "{es_bn}.tar.gz"
     es_url: "https://download.elasticsearch.org/elasticsearch/elasticsearch/{es_tb}"
     domain: "{fqdn}"

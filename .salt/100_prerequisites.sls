@@ -4,7 +4,6 @@ include:
   - makina-states.localsettings.jdk
 
 {% set version = data.version %}
-{% set fv = data.fv %}
 
 {# Layout is as follow
 data/es/elasticsearch-1.4.2: current elasticsearch release
@@ -34,7 +33,7 @@ data/es/root-{curver}:
       - {{ data.sdata }}/{{i}}
       {% endfor %}
       {% for i in data.bundle_data_ver_sync%}
-      - {{ data.sdata }}/{{i}}-{{fv}}
+      - {{ data.sdata }}/{{i}}-{{version}}
       {% endfor%}
     - makedirs: true
     - user: {{cfg.user}}
@@ -43,12 +42,12 @@ data/es/root-{curver}:
     - watch:
       - file: {{cfg.name}}-{{version}}
     - cwd: {{ data.sroot}}
-    - onlyif: test ! -e '{{ data.sroot}}/{{cfg.name}}-{{ fv }}-download'
+    - onlyif: test ! -e '{{ data.sroot}}/{{cfg.name}}-{{ version }}-download'
     - name: |
             set -e
             wget -c "{{data.es_url}}"
             tar xzf "{{data.es_tb}}"
-            touch {{cfg.name}}-{{ fv }}-download
+            touch {{cfg.name}}-{{ version }}-download
 
 {% for i in data.bundle_top_sync %}
 {{cfg.name}}-dist-top-conf-{{i}}:
@@ -75,7 +74,7 @@ data/es/root-{curver}:
 {% for i in data.bundle_data_ver_sync%}
 {{cfg.name}}-dist-top-ver-config-{{i}}:
   file.symlink:
-    - target: "{{data.sdata}}/{{i}}-{{fv}}"
+    - target: "{{data.sdata}}/{{i}}-{{version}}"
     - name: "{{data.prefix}}/{{i}}"
     - require:
       - cmd: "{{cfg.name}}-{{ version }}"
@@ -95,7 +94,7 @@ data/es/root-{curver}:
 
 {{cfg.name}}-cfg-link:
   file.symlink:
-    - name: "/etc/elasticsearch/elasticsearch-{{cfg.name}}-{{data.fv}}"
+    - name: "/etc/elasticsearch/elasticsearch-{{cfg.name}}-{{data.version}}"
     - target: "{{data.prefix}}/config"
     - makedirs: true
     - target: "{{data.prefix}}/logs"
