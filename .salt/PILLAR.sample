@@ -37,9 +37,16 @@ makina-projects.projectname:
         template: 'salt://makina-projects/{name}/files/config/logging.yml'
       "{prefix}/config/elasticsearch.yml":
         template: 'salt://makina-projects/{name}/files/config/elasticsearch.yml'
+    # defaults to the major version of es selected by 'version', eg 2, the integer
+    # it will take the appropriate plugins list in the 'plugins' configuration key
+    # plugins_selector: 2
     plugins:
-      - mobz/elasticsearch-head: head
-      - karmi/elasticsearch-paramedic: paramedic
+      1:
+        - mobz/elasticsearch-head: head
+        - karmi/elasticsearch-paramedic: paramedic
+      2:
+        - mobz/elasticsearch-head: head
+        - mapper-attachments: mapper-attachments
     nginx_upstream: 'salt://makina-projects/{name}/files/nginx.top.conf'
     nginx_vhost: 'salt://makina-projects/{name}/files/nginx.conf'
     # es version defs
@@ -57,7 +64,7 @@ makina-projects.projectname:
       ES_USE_IPV4: "1"
     es_network_publish_host: null
     # set this to a specific interface if neccessary
-    #es_bind_host: '127.0.0.1'
+    # es_bind_host: '127.0.0.1'
     es_cluster_name: "elasticsearch"
     es_http_jsonp: "true"
     es_mlockall: "true"
