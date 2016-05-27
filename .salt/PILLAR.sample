@@ -21,7 +21,7 @@ makina-projects.projectname:
         ES_MIN_MEM: "512m"
   data:
     # add a nginx vhost on port 80
-    version: '1.7.2'
+    version: '2.3.3'
     use_http_proxy: True
     # if set to true, we still use nginx as a proxy
     # but we do not firewall, we
