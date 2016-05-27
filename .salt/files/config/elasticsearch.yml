@@ -203,8 +203,8 @@ bootstrap.mlockall: {{data.es_mlockall}}
 # Set the bind address specifically (IPv4 or IPv6):
 #
 #network.bind_host: 192.168.0.1
-{% if data.version > 1 %}
-network.host: 0.0.0.0
+{% if data.get('es_bind_host', None) %}
+network.host: {{data.es_bind_host}}
 {% endif %}
 
 # Set the address other nodes will use to communicate with this node. If not

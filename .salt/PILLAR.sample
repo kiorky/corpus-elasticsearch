@@ -56,6 +56,8 @@ makina-projects.projectname:
       ES_MIN_MEM: "2g"
       ES_USE_IPV4: "1"
     es_network_publish_host: null
+    # set this to a specific interface if neccessary
+    #es_bind_host: '127.0.0.1'
     es_cluster_name: "elasticsearch"
     es_http_jsonp: "true"
     es_mlockall: "true"
