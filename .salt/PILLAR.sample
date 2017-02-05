@@ -28,6 +28,7 @@ makina-projects.projectname:
     # still resepect http users if sets, but not
     # filter based on http methods
     http_proxy_passthrough: False
+    backup_disabled: true
     keep_days: '2'
     keep_lasts: '2'
     keep_monthes: '0'
