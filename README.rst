@@ -1,4 +1,4 @@
-**MOVED TO corpus-elasticsearch**
+**MOVED TO https://github.com/corpusops/docker.elasticsearch.git**
 
 
 
