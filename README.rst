@@ -1,3 +1,8 @@
+**MOVED TO corpus-elasticsearch**
+
+
+
+
 =====================================================================
 Exemple of a generic elasticsearch deployment with salt/makina-states
 =====================================================================
