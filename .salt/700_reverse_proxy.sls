@@ -14,6 +14,8 @@ include:
 {% set nginx_vhost = data.nginx_fw_vhost %}
 {% endif %}
 {{ nginx.virtualhost(domain=data.domain,
+                     server_aliases=data.server_aliases,
+                     redirect_aliases=data.get('redirect_aliases', False),
                      cfg=cfg,
                      force_reload=True,
                      vhost_basename="corpus-{0}".format(cfg.name),
